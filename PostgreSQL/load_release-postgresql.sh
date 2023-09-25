@@ -87,10 +87,8 @@ function addLoadScript() {
 
 		tableName=${2}_`echo $fileType | head -c 1 | tr '[:upper:]' '[:lower:]'`
 
-		echo -e "COPY ${tableName}" >> ${generatedLoadScript}
-		echo -e "FROM '"${basedir}/${localExtract}/${fileName}"'" >> ${generatedLoadScript}
-		echo -e "WITH (FORMAT csv, HEADER true, DELIMITER E'	', QUOTE E'\b');" >> ${generatedLoadScript}
-		echo -e ""  >> ${generatedLoadScript}
+		echo "\\copy ${tableName} FROM '"${basedir}/${localExtract}/${fileName}"' WITH (FORMAT csv, HEADER true, DELIMITER E'	', QUOTE E'\b');" >> ${generatedLoadScript}
+		#echo -e ""  >> ${generatedLoadScript}
 	done
 }
 
