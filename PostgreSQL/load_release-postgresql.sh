@@ -35,7 +35,7 @@ generatedLoadScript="tmp_loader.sql"
 generatedEnvScript="tmp_environment-postgresql.sql"
 
 #What types of files are we loading - delta, snapshot, full or all?
-case "${loadType}" in 
+case "${loadType}" in
 	'DELTA') fileTypes=(Delta)
 		unzip -j ${releasePath} "*Delta*" -d ${localExtract}
 	;;
@@ -45,7 +45,7 @@ case "${loadType}" in
 	'FULL') fileTypes=(Full)
 		unzip -j ${releasePath} "*Full*" -d ${localExtract}
 	;;
-	'ALL') fileTypes=(Delta Snapshot Full)	
+	'ALL') fileTypes=(Delta Snapshot Full)
 		unzip -j ${releasePath} -d ${localExtract}
 	;;
 	*) echo "File load type ${loadType} not recognised"
@@ -53,11 +53,11 @@ case "${loadType}" in
 	;;
 esac
 
-	
-#Determine the release date from the filenames
-releaseDate=`ls -1 ${localExtract}/*.txt | head -1 | egrep -o '[0-9]{8}'`	
 
-#Generate the environemnt script by running through the template as 
+#Determine the release date from the filenames
+releaseDate=`ls -1 ${localExtract}/*.txt | head -1 | egrep -o '[0-9]{8}'`
+
+#Generate the environemnt script by running through the template as
 #many times as required
 #now=`date +"%Y%m%d_%H%M%S"`
 #echo -e "\nGenerating Environment script for ${loadType} type(s)"
@@ -108,7 +108,7 @@ addLoadScript der2_cRefset_AttributeValueTYPE_INT_DATE.txt attributevaluerefset
 addLoadScript der2_cRefset_LanguageTYPE-en_INT_DATE.txt langrefset
 addLoadScript der2_cRefset_AssociationTYPE_INT_DATE.txt associationrefset
 
-psql -U ${dbUsername} -p ${dbPortNumber} -d ${dbName} << EOF
+psql -h 127.0.0.1 -U ${dbUsername} -p ${dbPortNumber} -d ${dbName} << EOF
 	\ir create-database-postgres.sql;
 	\ir environment-postgresql.sql;
 	\ir ${generatedLoadScript};
